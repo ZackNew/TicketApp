@@ -1,5 +1,6 @@
 module.exports = {
-  darkMode: "media",
+  darkMode: false,
+  safelist: ["dark"],
   content: [
     "./app.vue",
     "./components/**/*.{vue,js,ts}",
@@ -10,17 +11,16 @@ module.exports = {
     extend: {
       colors: {
         primary: {
-          50: "#ecfffe",
-          100: "#bdffff",
-          200: "#7bfdff",
-          300: "#31faff",
-          400: "#00fffb",
-          500: "#00ede2",
-          600: "#00bfbb",
-          700: "#009796",
-          800: "#007577",
-          900: "#005051",
-          950: "#003a3d",
+          50: "#e6f7f7",
+          100: "#c8eaea",
+          200: "#99d6d6",
+          300: "#66bcbc",
+          400: "#339e9e",
+          500: "#005051",
+          600: "#004647",
+          700: "#003b3c",
+          800: "#003132",
+          900: "#002627",
         },
       },
     },

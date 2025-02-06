@@ -46,8 +46,8 @@ async function loginUser() {
         <input v-model="state.password" type="password" id="password" class="border p-2 rounded-lg border-gray-400"
           placeholder="Enter password" />
       </div>
-      <button :disabled="loadingLogin" type="submit"
-        class="bg-primary-900 w-full rounded-lg py-3 text-white font-semibold mt-10 disabled:bg-primary-700 active:scale-105 duration-300 ">Login</button>
+      <UButton :disabled="loadingLogin" type="submit" block :loading="loadingLogin"
+        class="bg-primary-900 w-full rounded-lg py-3 text-white font-semibold mt-10">Login</UButton>
     </form>
   </div>
 </template>

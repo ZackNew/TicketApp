@@ -3,7 +3,7 @@ export default defineNuxtConfig({
   compatibilityDate: "2024-11-01",
   devtools: { enabled: true },
   ssr: false,
-  modules: ["nuxt-vuefire", "@nuxtjs/tailwindcss"],
+  modules: ["nuxt-vuefire", "@nuxt/ui"],
   vuefire: {
     auth: {
       enabled: true,
@@ -17,5 +17,9 @@ export default defineNuxtConfig({
       messagingSenderId: process.env.NUXT_FIREBASE_MESSAGING_SENDER_ID,
       appId: process.env.NUXT_FIREBASE_APP_ID,
     },
+  },
+  colorMode: {
+    preference: "light",
+    fallback: "light",
   },
 });
