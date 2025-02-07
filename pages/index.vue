@@ -63,6 +63,8 @@ async function uploadImage(event: any) {
     const response = await useUploadImage(file, file.name);
     if ((response as any)?.data?.display_url) {
       state.image_path = (response as any)?.data?.display_url;
+      console.log(state.image_path);
+
     }
   } catch (error) {
     console.error("Upload failed", error);
@@ -79,54 +81,57 @@ function clearForm() {
 </script>
 
 <template>
-  <div class="max-w-7xl mx-auto rounded-xl border border-gray-200 shadow mt-20 p-8 flex gap-4">
-    <div class="w-1/2">
-      <h2 class="text-xl font-semibold text-primary-900">Buy Your Ticket for the Trip!</h2>
-      <p class="mt-4">
-        We are excited to offer tickets for our upcoming trip! To secure your spot, please follow these simple steps:
-      </p>
-      <p class="mt-4">
-        1️⃣ Make a Payment – Deposit the ticket amount to one of the following bank accounts: <br />
+  <div class="p-2 md:p-0">
+    <div class="max-w-7xl mx-auto rounded-xl border border-gray-200 shadow md:mt-20 mt-4 p-8 md:flex flex-row gap-4 ">
+      <div class="md:w-1/2 mx-auto">
+        <h2 class="text-xl font-semibold text-primary-900">Buy Your Ticket for the Trip!</h2>
+        <p class="mt-4">
+          We are excited to offer tickets for our upcoming trip! To secure your spot, please follow these simple steps:
+        </p>
+        <p class="mt-4">
+          1. Make a Payment - Deposit the ticket amount to one of the following bank accounts: <br />
 
-        💳 Bank Name 1: Account Name – XXXX | Account Number – XXXXXXX <br />
-        🏦 Bank Name 2: Account Name – XXXX | Account Number – XXXXXXX <br />
+          Bank Name 1: Account Name - XXXX | Account Number - XXXXXXX <br />
+          Bank Name 2: Account Name - XXXX | Account Number - XXXXXXX <br />
 
-        2️⃣ Keep Your Payment Receipt – You’ll need to upload a screenshot of your payment. <br />
+          2. Keep Your Payment Receipt - You'll need to upload a screenshot of your payment. <br />
 
-        3️⃣ Fill Out the Form – After making the payment, complete the form on this page with your details. <br />
+          3. Fill Out the Form - After making the payment, complete the form on this page with your details. <br />
 
-        📢 Once we verify your payment, we’ll confirm your ticket! <br />
+          Once we verify your payment, we'll confirm your ticket! <br />
 
-        For any questions, feel free to contact us.
-      </p>
-    </div>
-    <div class="w-1/2">
-      <div class="max-w-96 mx-auto">
-        <UForm :schema="formSchema" :state="state" @submit="onSubmit">
-          <UFormGroup class="mt-4" label="Full Name" name="full_name">
-            <UInput size="lg" v-model="state.full_name" />
-          </UFormGroup>
+          For any questions, feel free to contact us.
+        </p>
+      </div>
+      <div class="md:w-1/2 mx-auto mt-12 md:mt-0">
+        <div class="max-w-96 mx-auto">
+          <h1 class="text-xl font-semibold text-primary-900 mb-6">Submit your ticket</h1>
+          <UForm :schema="formSchema" :state="state" @submit="onSubmit">
+            <UFormGroup class="mt-4" label="Full Name" name="full_name">
+              <UInput size="lg" v-model="state.full_name" />
+            </UFormGroup>
 
-          <UFormGroup class="mt-4" label="Email" name="email">
-            <UInput size="lg" v-model="state.email" />
-          </UFormGroup>
+            <UFormGroup class="mt-4" label="Email" name="email">
+              <UInput size="lg" v-model="state.email" />
+            </UFormGroup>
 
-          <UFormGroup class="mt-4" label="Phone Number" name="phone_number">
-            <UInput size="lg" v-model="state.phone_number" />
-          </UFormGroup>
+            <UFormGroup class="mt-4" label="Phone Number" name="phone_number">
+              <UInput size="lg" v-model="state.phone_number" />
+            </UFormGroup>
 
-          <UFormGroup class="mt-4" label="Number  of tickets" name="number_of_tickets">
-            <UInput size="lg" v-model="state.number_of_tickets" />
-          </UFormGroup>
+            <UFormGroup class="mt-4" label="Number  of tickets" name="number_of_tickets">
+              <UInput size="lg" v-model="state.number_of_tickets" />
+            </UFormGroup>
 
-          <UFormGroup class="mt-4" label="Payment Image" name="image_path">
-            <UInput ref="fileInput" v-model="state.image_path" size="lg" type="file" icon="i-heroicons-folder"
-              @change="uploadImage" />
-          </UFormGroup>
+            <UFormGroup class="mt-4" label="Payment Image" name="image_path">
+              <UInput ref="fileInput" v-model="state.image_path" size="lg" type="file" icon="i-heroicons-folder"
+                @change="uploadImage" />
+            </UFormGroup>
 
-          <UButton :disabled="loadingImageUpload" :loading="loadingSubmit" label="Submit"
-            class="bg-primary-900 hover:bg-primary-800 px-16 mt-12" size="lg" type="submit" />
-        </UForm>
+            <UButton :disabled="loadingImageUpload" :loading="loadingSubmit" label="Submit"
+              class="bg-primary-900 hover:bg-primary-800 px-16 mt-12" size="lg" type="submit" />
+          </UForm>
+        </div>
       </div>
     </div>
   </div>

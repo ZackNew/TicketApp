@@ -1,5 +1,7 @@
 export const useUploadImage = async (file: File, name: string) => {
-  const apiKey = "314d4ew3r437f25ede2333rc582a3230862547523fer6a84630";
+  const config = useRuntimeConfig();
+
+  const apiKey = config.public.imgbbApiKey;
   const formData = new FormData();
 
   formData.append("key", apiKey);

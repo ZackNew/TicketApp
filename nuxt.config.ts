@@ -22,4 +22,9 @@ export default defineNuxtConfig({
     preference: "light",
     fallback: "light",
   },
+  runtimeConfig: {
+    public: {
+      imgbbApiKey: process.env.NUXT_IMGBB_API_KEY,
+    },
+  },
 });
