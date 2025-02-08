@@ -82,48 +82,56 @@ function clearForm() {
 
 <template>
   <div class="p-2 md:p-0">
-    <div class="max-w-7xl mx-auto rounded-xl border border-gray-200 shadow md:mt-20 mt-4 p-8 md:flex flex-row gap-4 ">
-      <div class="md:w-1/2 mx-auto">
-        <h2 class="text-xl font-semibold text-primary-900">Buy Your Ticket for the Trip!</h2>
-        <p class="mt-4">
-          We are excited to offer tickets for our upcoming trip! To secure your spot, please follow these simple steps:
-        </p>
-        <p class="mt-4">
-          1. Make a Payment - Deposit the ticket amount to one of the following bank accounts: <br />
-
-          Bank Name 1: Account Name - XXXX | Account Number - XXXXXXX <br />
-          Bank Name 2: Account Name - XXXX | Account Number - XXXXXXX <br />
-
-          2. Keep Your Payment Receipt - You'll need to upload a screenshot of your payment. <br />
-
-          3. Fill Out the Form - After making the payment, complete the form on this page with your details. <br />
-
-          Once we verify your payment, we'll confirm your ticket! <br />
-
-          For any questions, feel free to contact us.
-        </p>
+    <div class="max-w-7xl mx-auto md:p-8 p-2 md:flex flex-row gap-4">
+      <div class="md:w-1/2 mx-auto shadow border rounded-xl p-4">
+        <img class="rounded-lg" src="/img/home.jpeg" />
+        <div class="mt-4">
+          <h1 class="text-xl font-semibold">የ6ኛዙር የሱባዔ ጉባኤ ተማሪዎች ጉዞ ፩</h1>
+          <p class="mt-4">
+            ርእሰ አድባራት ወገዳማት ዳግሚት ጽዮን አዲስ አለም ማርያም ገዳም የካቲት ፴
+          </p>
+          <p class="mt-4">
+            እንዳልጓዝ የሚከለክለኝ ምንድነው?
+          </p>
+          <p class="mt-4">
+            ቦሌ ደብረ ሳሌም መድኃኔዓለም መጥምቁ ቅዱስ ዮሐንስ ወአቡነ አረጋዊ ካቴድራል ፈለገ ዮርዳኖስ ሰ/ት/ቤት
+          </p>
+          <p class="mt-8">
+            የክፍያ አማራጮች (የጉዞ ዋጋ ብር 500)
+          </p>
+          <p class="mt-2">
+            <span class="font-semibold">Commericial Bank Of Ethiopia: </span> 1000316708777 - Biruk Akaleweld
+          </p>
+          <p class="mt-2">
+            <span class="font-semibold">Bank Of Abyssinia: </span> 37564281 - Biruk Akaleweld
+          </p>
+          <p class="mt-2">
+            <span class="font-semibold">Telebirr: </span> +251987272007 - Biruk
+          </p>
+        </div>
       </div>
-      <div class="md:w-1/2 mx-auto mt-12 md:mt-0">
-        <div class="max-w-96 mx-auto">
-          <h1 class="text-xl font-semibold text-primary-900 mb-6">Submit your ticket</h1>
+      <div class="md:w-1/2 mx-auto mt-12 md:mt-0 shadow border rounded-xl p-4">
+        <div class="p-4 mx-auto">
+          <h1 class="text-xl font-semibold mb-6">Submit your payment</h1>
           <UForm :schema="formSchema" :state="state" @submit="onSubmit">
-            <UFormGroup class="mt-4" label="Full Name" name="full_name">
+            <UFormGroup class="mt-4" label="Full Name" name="full_name" :ui="{ label: { base: 'text-white' } }">
               <UInput size="lg" v-model="state.full_name" />
             </UFormGroup>
 
-            <UFormGroup class="mt-4" label="Email" name="email">
+            <UFormGroup class="mt-4" label="Email" name="email" :ui="{ label: { base: 'text-white' } }">
               <UInput size="lg" v-model="state.email" />
             </UFormGroup>
 
-            <UFormGroup class="mt-4" label="Phone Number" name="phone_number">
+            <UFormGroup class="mt-4" label="Phone Number" name="phone_number" :ui="{ label: { base: 'text-white' } }">
               <UInput size="lg" v-model="state.phone_number" />
             </UFormGroup>
 
-            <UFormGroup class="mt-4" label="Number  of tickets" name="number_of_tickets">
+            <UFormGroup class="mt-4" label="Number  of tickets" name="number_of_tickets"
+              :ui="{ label: { base: 'text-white' } }">
               <UInput size="lg" v-model="state.number_of_tickets" />
             </UFormGroup>
 
-            <UFormGroup class="mt-4" label="Payment Image" name="image_path">
+            <UFormGroup class="mt-4" label="Payment Image" name="image_path" :ui="{ label: { base: 'text-white' } }">
               <UInput ref="fileInput" v-model="state.image_path" size="lg" type="file" icon="i-heroicons-folder"
                 @change="uploadImage" />
             </UFormGroup>

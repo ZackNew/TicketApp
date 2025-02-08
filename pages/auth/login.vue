@@ -5,6 +5,8 @@ definePageMeta({
   middleware: ['authenticated'],
 })
 
+const router = useRouter();
+
 const auth = useFirebaseAuth();
 
 const state = reactive({
@@ -20,8 +22,9 @@ async function loginUser() {
       await signInWithEmailAndPassword(auth, state.email, state.password)
         .then((userCredential) => {
           const user = userCredential.user
-          console.log(user);
-
+          if (user?.accessToken) {
+            router.push('/dashboard');
+          }
         })
     } catch (error) {
       console.log(error);

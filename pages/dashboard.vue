@@ -5,7 +5,7 @@ definePageMeta({
 </script>
 
 <template>
-  <div>
-    <h2>finer</h2>
+  <div class="max-w-7xl mx-auto rounded-xl border border-gray-200 shadow md:mt-20 mt-4 p-8">
+
   </div>
 </template>
