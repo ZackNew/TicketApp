@@ -83,7 +83,7 @@ function clearForm() {
 <template>
   <div class="p-2 md:p-0">
     <div class="max-w-7xl mx-auto md:p-8 p-2 md:flex flex-row gap-4">
-      <div class="md:w-1/2 mx-auto shadow border rounded-xl p-4">
+      <div class="md:w-1/2 mx-auto shadow rounded-xl p-4 bg-white text-gray-800">
         <img class="rounded-lg" src="/img/home.jpeg" />
         <div class="mt-4">
           <h1 class="text-xl font-semibold">የ6ኛዙር የሱባዔ ጉባኤ ተማሪዎች ጉዞ ፩</h1>
@@ -110,7 +110,7 @@ function clearForm() {
           </p>
         </div>
       </div>
-      <div class="md:w-1/2 mx-auto mt-12 md:mt-0 shadow border rounded-xl p-4">
+      <div class="md:w-1/2 mx-auto mt-12 md:mt-0 shadow rounded-xl p-4 bg-slate-800">
         <div class="p-4 mx-auto">
           <h1 class="text-xl font-semibold mb-6">Submit your payment</h1>
           <UForm :schema="formSchema" :state="state" @submit="onSubmit">
