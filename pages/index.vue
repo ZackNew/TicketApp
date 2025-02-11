@@ -39,6 +39,7 @@ async function onSubmit(event: FormSubmitEvent<FormSchema>) {
       image_path: state.image_path,
       number_of_tickets: state.number_of_tickets,
       phone_number: state.phone_number,
+      status: 'pending'
     })
     if (result.id) {
       clearForm();
@@ -60,6 +61,7 @@ async function uploadImage(event: any) {
   if (!file) return;
 
   try {
+    loadingImageUpload.value = true
     const response = await useUploadImage(file, file.name);
     if ((response as any)?.data?.display_url) {
       state.image_path = (response as any)?.data?.display_url;
@@ -68,6 +70,8 @@ async function uploadImage(event: any) {
     }
   } catch (error) {
     console.error("Upload failed", error);
+  } finally {
+    loadingImageUpload.value = false
   }
 };
 
