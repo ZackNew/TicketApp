@@ -6,52 +6,51 @@ definePageMeta({
   middleware: ['auth'],
 })
 
-const db = useFirestore()
-const payments = useCollection(collection(db, 'payments'))
+// const db = useFirestore()
+const { data: payments, pending, error } = useFetch('/api/dashboard/getDashboard')
 
 const filterStatus = ref<'pending' | 'approved' | 'rejected'>('pending')
 
 const toaster = useToast()
 
-const pendingPayments = computed(() => {
-  return payments.data.value
-    .filter(p => p.status === filterStatus.value)
-    .map(p => ({
-      Name: p.full_name,
-      Email: p.email,
-      Phone: p.phone_number,
-      Tickets: p.number_of_tickets,
-      Image: p.image_path,
-      actions: p.id
-    }))
-})
+// const pendingPayments = computed(() => {
+//   return payments.value.filter(p => p.status === filterStatus.value)
+//     .map(p => ({
+//       Name: p.full_name,
+//       Email: p.email,
+//       Phone: p.phone_number,
+//       Tickets: p.number_of_tickets,
+//       Image: p.image_path,
+//       actions: p.id
+//     }))
+// })
 
-function approveOrReject(status: 'approved' | 'rejected', id: string) {
-  toaster.add({
-    id: 'postJob',
-    title: 'Are you sure you want to approve',
-    color: 'red',
-    timeout: 0,
-    actions: [{
-      label: 'Yes',
-      click: async () => {
-        try {
-          await updateDoc(doc(db, 'payments', id), {
-            status: status
-          })
-        } catch (error) {
-          console.error(error)
-        }
-      },
+// function approveOrReject(status: 'approved' | 'rejected', id: string) {
+//   toaster.add({
+//     id: 'postJob',
+//     title: 'Are you sure you want to approve',
+//     color: 'red',
+//     timeout: 0,
+//     actions: [{
+//       label: 'Yes',
+//       click: async () => {
+//         try {
+//           await updateDoc(doc(db, 'payments', id), {
+//             status: status
+//           })
+//         } catch (error) {
+//           console.error(error)
+//         }
+//       },
 
-    }, {
+//     }, {
 
-      label: 'No',
-      color: 'red',
-      click: () => toaster.clear(),
-    }],
-  })
-}
+//       label: 'No',
+//       color: 'red',
+//       click: () => toaster.clear(),
+//     }],
+//   })
+// }
 </script>
 
 <template>
@@ -68,19 +67,19 @@ function approveOrReject(status: 'approved' | 'rejected', id: string) {
         <p class="cursor-pointer" :class="filterStatus === 'rejected' ? 'text-green-500' : ''"
           @click="filterStatus = 'rejected'">Rejected</p>
       </div>
-    </div>
-    <div class="bg-white rounded-lg p-4">
+    </div> {{ payments }}
+    <!-- <div class="bg-white rounded-lg p-4">
       <UTable v-if="pendingPayments.length" :rows="pendingPayments">
         <template #Image-data="{ row }">
           <a :href="row.Image" target="_blank" class="text-green-700">open image</a>
         </template>
-        <template #actions-data="{ row }">
+<template #actions-data="{ row }">
           <div class="flex gap-2">
             <UButton size="sm" label="Approve" @click="approveOrReject('approved', row.actions)" />
             <UButton color="red" size="sm" label="Reject" @click="approveOrReject('rejected', row.actions)" />
           </div>
         </template>
-      </UTable>
-    </div>
+</UTable>
+</div> -->
   </div>
 </template>
