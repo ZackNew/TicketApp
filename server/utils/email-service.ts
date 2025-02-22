@@ -20,8 +20,8 @@ export async function sendEmailNotification(
       subject: "Your Ticket Confirmation 🎫",
       html: `
         <h2>Hello ${userName},</h2>
-        <p>Your payment has been <strong>approved</strong>! 🎉</p>
-        <p>Your ticket number is: <strong style="font-size: 18px;">${ticketNumber}</strong></p>
+        <p>ክፍያዎ ተቀባይነት <strong>አግኝቷል!</strong>! 🎉</p>
+        <p>የቲኬት ቁጥር: <strong style="font-size: 18px;">${ticketNumber}</strong></p>
         <p>Thank you for using our service. We look forward to seeing you!</p>
         <br/>
         <p>Best Regards,<br/>Ticketing Team</p>
