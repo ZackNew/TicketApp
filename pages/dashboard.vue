@@ -32,7 +32,7 @@ const pendingPayments = computed(() => {
     }))
 })
 
-function approveOrReject(status: 'approved' | 'rejected', id: string) {
+function approveOrReject(status: 'approved' | 'rejected', id: string, userName: string) {
   toaster.add({
     id: 'postJob',
     title: 'Are you sure you want to approve',
@@ -42,11 +42,14 @@ function approveOrReject(status: 'approved' | 'rejected', id: string) {
       label: 'Yes',
       click: async () => {
         try {
+          console.log(userName);
+
           const response: { message: string; success: string } = await $fetch("/api/dashboard/update-payment", {
             method: "POST",
             body: {
               id,
               status,
+              userName
             },
           });
           if (response.success) {
@@ -94,8 +97,9 @@ function approveOrReject(status: 'approved' | 'rejected', id: string) {
         </template>
         <template #actions-data="{ row }">
           <div class="flex gap-2">
-            <UButton size="sm" label="Approve" @click="approveOrReject('approved', row.actions)" />
-            <UButton color="red" size="sm" label="Reject" @click="approveOrReject('rejected', row.actions)" />
+            <UButton size="sm" label="Approve" @click="approveOrReject('approved', row.actions, row.Name)" />
+            <UButton color="red" size="sm" label="Reject"
+              @click="approveOrReject('rejected', row.actions, row.full_name)" />
           </div>
         </template>
       </UTable>
