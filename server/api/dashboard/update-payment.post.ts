@@ -1,10 +1,10 @@
+import { sendEmailNotification } from "~/server/utils/email-service";
 import { generateUniqueTicketNumber } from "~/server/utils/ticketNumberGenerator";
 
 export default defineEventHandler(async (event) => {
   try {
     const body = await readBody(event);
-    const { id, status, userName } = body;
-    console.log(body);
+    const { id, status, userName, email } = body;
 
     if (!id || !status || !userName) {
       throw createError({
@@ -26,6 +26,8 @@ export default defineEventHandler(async (event) => {
       };
 
       await firebaseDb.collection("tickets").doc().set(ticketData);
+
+      await sendEmailNotification(email, userName, ticketNumber);
     }
 
     return { success: true, message: "Payment updated successfully" };

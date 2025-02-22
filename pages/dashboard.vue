@@ -32,7 +32,7 @@ const pendingPayments = computed(() => {
     }))
 })
 
-function approveOrReject(status: 'approved' | 'rejected', id: string, userName: string) {
+function approveOrReject(status: 'approved' | 'rejected', id: string, userName: string, email: string) {
   toaster.add({
     id: 'postJob',
     title: 'Are you sure you want to approve',
@@ -49,7 +49,8 @@ function approveOrReject(status: 'approved' | 'rejected', id: string, userName: 
             body: {
               id,
               status,
-              userName
+              userName,
+              email
             },
           });
           if (response.success) {
@@ -97,9 +98,9 @@ function approveOrReject(status: 'approved' | 'rejected', id: string, userName: 
         </template>
         <template #actions-data="{ row }">
           <div class="flex gap-2">
-            <UButton size="sm" label="Approve" @click="approveOrReject('approved', row.actions, row.Name)" />
+            <UButton size="sm" label="Approve" @click="approveOrReject('approved', row.actions, row.Name, row.Email)" />
             <UButton color="red" size="sm" label="Reject"
-              @click="approveOrReject('rejected', row.actions, row.full_name)" />
+              @click="approveOrReject('rejected', row.actions, row.Name, row.Email)" />
           </div>
         </template>
       </UTable>
