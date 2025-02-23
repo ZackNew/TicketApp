@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 
 definePageMeta({
   middleware: ['authenticated'],
@@ -7,7 +7,7 @@ definePageMeta({
 
 const router = useRouter();
 
-const auth = useFirebaseAuth();
+const auth = getAuth();
 
 const state = reactive({
   email: '',
@@ -19,13 +19,17 @@ async function loginUser() {
   if (auth) {
     loadingLogin.value = true;
     try {
-      await signInWithEmailAndPassword(auth, state.email, state.password)
-        .then((userCredential) => {
-          const user = userCredential.user
-          if (user?.accessToken) {
-            router.push('/dashboard');
-          }
-        })
+      const userCredential = await signInWithEmailAndPassword(auth, state.email, state.password);
+      const idToken = await userCredential.user.getIdToken();
+
+      const response: { message: string; success: string } = await $fetch("/api/auth/login", {
+        method: "POST",
+        body: { idToken },
+      });
+
+      if (response.success) {
+        router.push('/dashboard');
+      }
     } catch (error) {
       console.log(error);
     } finally {

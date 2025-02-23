@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { number, object, string, type InferType } from 'yup'
 import type { FormSubmitEvent } from '#ui/types'
-import { addDoc, collection } from 'firebase/firestore'
 
 const phoneNumberRegex = /^(09|07)\d{8}$|^\+2519|^\+2517\d{8}$|^2519|^2517\d{8}$/
 
@@ -33,15 +32,17 @@ const toaster = useToast()
 async function onSubmit(event: FormSubmitEvent<FormSchema>) {
   try {
     loadingSubmit.value = true
-    const result = await addDoc(collection(db, 'payments'), {
-      email: state.email,
-      full_name: state.full_name,
-      image_path: state.image_path,
-      number_of_tickets: state.number_of_tickets,
-      phone_number: state.phone_number,
-      status: 'pending'
-    })
-    if (result.id) {
+    const response: { message: string; success: string } = await $fetch("/api/form", {
+      method: "POST",
+      body: {
+        email: state.email,
+        full_name: state.full_name,
+        image_path: state.image_path,
+        number_of_tickets: state.number_of_tickets,
+        phone_number: state.phone_number,
+      },
+    });
+    if (response.success) {
       clearForm();
       toaster.add({
         title: 'Success',

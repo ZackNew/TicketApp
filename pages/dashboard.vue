@@ -1,21 +1,27 @@
 <script setup lang="ts">
-import { useCollection } from 'vuefire'
-import { collection, doc, updateDoc } from 'firebase/firestore'
-
 definePageMeta({
   middleware: ['auth'],
 })
 
-const db = useFirestore()
-const payments = useCollection(collection(db, 'payments'))
+interface Payment {
+  id: string;
+  status: 'pending' | 'approved' | 'rejected';
+  full_name: string;
+  email: string;
+  phone_number: string;
+  number_of_tickets: number;
+  image_path: string;
+}
+
+const { data: payments, error, execute: refetchPayments } = useFetch<Payment[]>('/api/dashboard/getDashboard')
 
 const filterStatus = ref<'pending' | 'approved' | 'rejected'>('pending')
 
 const toaster = useToast()
 
 const pendingPayments = computed(() => {
-  return payments.data.value
-    .filter(p => p.status === filterStatus.value)
+  if (!payments.value) return []
+  return payments.value.filter(p => p.status === filterStatus.value)
     .map(p => ({
       Name: p.full_name,
       Email: p.email,
@@ -26,7 +32,7 @@ const pendingPayments = computed(() => {
     }))
 })
 
-function approveOrReject(status: 'approved' | 'rejected', id: string) {
+function approveOrReject(status: 'approved' | 'rejected', id: string, userName: string, email: string) {
   toaster.add({
     id: 'postJob',
     title: 'Are you sure you want to approve',
@@ -36,9 +42,25 @@ function approveOrReject(status: 'approved' | 'rejected', id: string) {
       label: 'Yes',
       click: async () => {
         try {
-          await updateDoc(doc(db, 'payments', id), {
-            status: status
-          })
+          console.log(userName);
+
+          const response: { message: string; success: string } = await $fetch("/api/dashboard/update-payment", {
+            method: "POST",
+            body: {
+              id,
+              status,
+              userName,
+              email
+            },
+          });
+          if (response.success) {
+            toaster.add({
+              title: `Payment ${status} successfully`,
+              color: 'green',
+              timeout: 5000,
+            })
+            refetchPayments()
+          }
         } catch (error) {
           console.error(error)
         }
@@ -69,6 +91,7 @@ function approveOrReject(status: 'approved' | 'rejected', id: string) {
           @click="filterStatus = 'rejected'">Rejected</p>
       </div>
     </div>
+    <UButton label="refresh" @click="refetchPayments()" class="mb-2" />
     <div class="bg-white rounded-lg p-4">
       <UTable v-if="pendingPayments.length" :rows="pendingPayments">
         <template #Image-data="{ row }">
@@ -76,8 +99,9 @@ function approveOrReject(status: 'approved' | 'rejected', id: string) {
         </template>
         <template #actions-data="{ row }">
           <div class="flex gap-2">
-            <UButton size="sm" label="Approve" @click="approveOrReject('approved', row.actions)" />
-            <UButton color="red" size="sm" label="Reject" @click="approveOrReject('rejected', row.actions)" />
+            <UButton size="sm" label="Approve" @click="approveOrReject('approved', row.actions, row.Name, row.Email)" />
+            <UButton color="red" size="sm" label="Reject"
+              @click="approveOrReject('rejected', row.actions, row.Name, row.Email)" />
           </div>
         </template>
       </UTable>
