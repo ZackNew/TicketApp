@@ -26,4 +26,7 @@ export default defineNuxtConfig({
       imgbbApiKey: process.env.NUXT_IMGBB_API_KEY,
     },
   },
+  nitro: {
+    preset: "netlify",
+  },
 });
