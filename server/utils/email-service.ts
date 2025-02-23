@@ -1,6 +1,6 @@
 import nodemailer from "nodemailer";
 
-export async function sendEmailNotification(
+export default async function sendEmailNotification(
   email: string,
   userName: string,
   ticketNumber: string
@@ -15,16 +15,17 @@ export async function sendEmailNotification(
     });
 
     await transporter.sendMail({
-      from: `"Felege Yordanos Ticket" <${process.env.GMAIL_USER}>`,
+      from: `የቦሌ መድሃኒአለም ፈለገ ዮርዳኖስ ሰንበት ት/ቤት" <${process.env.GMAIL_USER}>`,
       to: email,
-      subject: "Your Ticket Confirmation 🎫",
+      subject: "Ticket Confirmation 🎫",
       html: `
-        <h2>Hello ${userName},</h2>
+        <img src="https://i.ibb.co/m5Y6QbW6/home.jpg" alt="home" border="0" width="300px">
+        <h2>ሰላም ${userName},</h2>
         <p>ክፍያዎ ተቀባይነት <strong>አግኝቷል!</strong>! 🎉</p>
         <p>የቲኬት ቁጥር: <strong style="font-size: 18px;">${ticketNumber}</strong></p>
-        <p>Thank you for using our service. We look forward to seeing you!</p>
+        <p>ቲኬት ስለገዙ እናመሰግናለን። እርስዎን ለማየት በጉጉት እንጠባበቃለን!</p>
         <br/>
-        <p>Best Regards,<br/>Ticketing Team</p>
+        <p>የቦሌ መድሃኒአለም ፈለገ ዮርዳኖስ ሰንበት ት/ቤት</p>
       `,
     });
 

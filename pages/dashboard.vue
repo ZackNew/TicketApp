@@ -91,7 +91,8 @@ function approveOrReject(status: 'approved' | 'rejected', id: string, userName: 
           @click="filterStatus = 'rejected'">Rejected</p>
       </div>
     </div>
-    <div class="bg-white rounded-lg p-4 mx-2">
+    <UButton label="refresh" @click="refetchPayments()" class="mb-2" />
+    <div class="bg-white rounded-lg p-4">
       <UTable v-if="pendingPayments.length" :rows="pendingPayments">
         <template #Image-data="{ row }">
           <a :href="row.Image" target="_blank" class="text-green-700">open image</a>
