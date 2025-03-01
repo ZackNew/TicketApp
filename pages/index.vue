@@ -131,7 +131,8 @@ function clearForm() {
               <UInput size="lg" v-model="state.phone_number" />
             </UFormGroup>
 
-            <UFormGroup class="mt-4" label="Address" name="address" :ui="{ label: { base: 'text-white' } }">
+            <UFormGroup class="mt-4" label="Residential Area/Address" name="address"
+              :ui="{ label: { base: 'text-white' } }">
               <UInput size="lg" v-model="state.address" />
             </UFormGroup>
 
