@@ -91,22 +91,28 @@ function clearForm() {
       <div class="md:w-1/2 mx-auto shadow rounded-xl p-4 bg-white text-gray-800">
         <img class="rounded-lg" src="/img/home.webp" />
         <div class="mt-4">
-          <h1 class="text-xl font-semibold">የ6ኛዙር የሱባዔ ጉባኤ ተማሪዎች ጉዞ ፩</h1>
+          <h1 class="text-lg font-semibold">ቦሌ ደብረ ሳሌም መድኃኔዓለም መጥምቁ ቅዱስ ዮሐንስ ወአቡነ አረጋዊ ካቴድራል ፈለገ ዮርዳኖስ ሰ/ት/ቤት የ፯ኛሐ ክፍል
+            ተማሪዎች ጉዞ ፩</h1>
           <p class="mt-4">
             ርእሰ አድባራት ወገዳማት ዳግሚት ጽዮን አዲስ አለም ማርያም ገዳም የካቲት ፴
           </p>
-          <p class="mt-4">
+          <!-- <p class="mt-4">
             እንዳልጓዝ የሚከለክለኝ ምንድነው?
-          </p>
-          <p class="mt-4">
+          </p> -->
+          <!-- <p class="mt-4">
             ቦሌ ደብረ ሳሌም መድኃኔዓለም መጥምቁ ቅዱስ ዮሐንስ ወአቡነ አረጋዊ ካቴድራል ፈለገ ዮርዳኖስ ሰ/ት/ቤት
-          </p>
-          <p class="mt-8">
-            የክፍያ አማራጮች (የጉዞ ዋጋ ብር 749.99)
+          </p> -->
+          <p class="mt-4">
+            የክፍያ አማራጮች (የጉዞ ዋጋ ብር <span class="font-bold">749.99</span> )
           </p>
           <p class="mt-2">
             <span class="font-semibold">Commericial Bank Of Ethiopia: </span> 1000603378591 - ዮሴፍ ዓለማየሁ እና ፍቃዱ ሲሳይ
           </p>
+          <p class="font-semibold">
+            ፎርሙን ሲሞሉ ችግር ከገጠመዎት:
+          </p>
+          <p class="ml-6">+251912907396</p>
+          <p class="ml-6">+251923789744</p>
         </div>
       </div>
       <div class="md:w-1/2 mx-auto mt-12 md:mt-0 shadow rounded-xl p-4 bg-slate-800">
