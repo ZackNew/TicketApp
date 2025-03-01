@@ -89,7 +89,7 @@ function clearForm() {
   <div class="p-2 md:p-0">
     <div class="max-w-7xl mx-auto md:p-8 p-2 md:flex flex-row gap-4">
       <div class="md:w-1/2 mx-auto shadow rounded-xl p-4 bg-white text-gray-800">
-        <img class="rounded-lg" src="/img/home.jpeg" />
+        <img class="rounded-lg" src="/img/home.webp" />
         <div class="mt-4">
           <h1 class="text-xl font-semibold">የ6ኛዙር የሱባዔ ጉባኤ ተማሪዎች ጉዞ ፩</h1>
           <p class="mt-4">
@@ -102,16 +102,10 @@ function clearForm() {
             ቦሌ ደብረ ሳሌም መድኃኔዓለም መጥምቁ ቅዱስ ዮሐንስ ወአቡነ አረጋዊ ካቴድራል ፈለገ ዮርዳኖስ ሰ/ት/ቤት
           </p>
           <p class="mt-8">
-            የክፍያ አማራጮች (የጉዞ ዋጋ ብር 500)
+            የክፍያ አማራጮች (የጉዞ ዋጋ ብር 749.99)
           </p>
           <p class="mt-2">
-            <span class="font-semibold">Commericial Bank Of Ethiopia: </span> 1000316708777 - Biruk Akaleweld
-          </p>
-          <p class="mt-2">
-            <span class="font-semibold">Bank Of Abyssinia: </span> 37564281 - Biruk Akaleweld
-          </p>
-          <p class="mt-2">
-            <span class="font-semibold">Telebirr: </span> +251987272007 - Biruk
+            <span class="font-semibold">Commericial Bank Of Ethiopia: </span> 1000603378591 - ዮሴፍ ዓለማየሁ እና ፍቃዱ ሲሳይ
           </p>
         </div>
       </div>

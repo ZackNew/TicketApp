@@ -19,7 +19,7 @@ export default async function sendEmailNotification(
       to: email,
       subject: "Ticket Confirmation 🎫",
       html: `
-        <img src="https://i.ibb.co/m5Y6QbW6/home.jpg" alt="home" border="0" width="300px">
+        <img src="https://i.ibb.co/m5Y6QbW6/home.webp" alt="home" border="0" width="300px">
         <h2>ሰላም ${userName},</h2>
         <p>ክፍያዎ ተቀባይነት <strong>አግኝቷል!</strong>! 🎉</p>
         <p>የቲኬት ቁጥር: <strong style="font-size: 18px;">${ticketNumber}</strong></p>
