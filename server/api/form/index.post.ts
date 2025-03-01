@@ -6,7 +6,7 @@ export default defineEventHandler(async (event) => {
       !body.email ||
       !body.full_name ||
       !body.image_path ||
-      !body.number_of_tickets ||
+      !body.address ||
       !body.phone_number
     ) {
       throw createError({

@@ -8,7 +8,7 @@ const formSchema = object({
   email: string().email('Invalid email').required('Required'),
   full_name: string().required('Required'),
   image_path: string().required('Required'),
-  number_of_tickets: number().required('Required'),
+  address: string(),
   phone_number: string().matches(phoneNumberRegex, 'Invalid phone number').required('Required'),
 })
 
@@ -22,7 +22,7 @@ const state = reactive({
   email: undefined,
   full_name: undefined,
   image_path: undefined,
-  number_of_tickets: undefined,
+  address: undefined,
   phone_number: undefined,
 })
 
@@ -38,7 +38,7 @@ async function onSubmit(event: FormSubmitEvent<FormSchema>) {
         email: state.email,
         full_name: state.full_name,
         image_path: state.image_path,
-        number_of_tickets: state.number_of_tickets,
+        address: state.address,
         phone_number: state.phone_number,
       },
     });
@@ -80,7 +80,7 @@ function clearForm() {
   state.email = undefined;
   state.full_name = undefined;
   state.image_path = undefined;
-  state.number_of_tickets = undefined;
+  state.address = undefined;
   state.phone_number = undefined;
 }
 </script>
@@ -131,9 +131,8 @@ function clearForm() {
               <UInput size="lg" v-model="state.phone_number" />
             </UFormGroup>
 
-            <UFormGroup class="mt-4" label="Number  of tickets" name="number_of_tickets"
-              :ui="{ label: { base: 'text-white' } }">
-              <UInput size="lg" v-model="state.number_of_tickets" />
+            <UFormGroup class="mt-4" label="Address" name="address" :ui="{ label: { base: 'text-white' } }">
+              <UInput size="lg" v-model="state.address" />
             </UFormGroup>
 
             <UFormGroup class="mt-4" label="Payment Image" name="image_path" :ui="{ label: { base: 'text-white' } }">
@@ -141,7 +140,7 @@ function clearForm() {
                 @change="uploadImage" />
             </UFormGroup>
 
-            <UButton :disabled="loadingImageUpload" :loading="loadingSubmit" label="Submit"
+            <UButton :disabled="loadingImageUpload" :loading="loadingSubmit || loadingImageUpload" label="Submit"
               class="bg-primary-900 hover:bg-primary-800 px-16 mt-12" size="lg" type="submit" />
           </UForm>
         </div>

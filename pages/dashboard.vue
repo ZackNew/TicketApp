@@ -9,7 +9,7 @@ interface Payment {
   full_name: string;
   email: string;
   phone_number: string;
-  number_of_tickets: number;
+  // number_of_tickets: number;
   image_path: string;
 }
 
@@ -26,13 +26,13 @@ const pendingPayments = computed(() => {
       Name: p.full_name,
       Email: p.email,
       Phone: p.phone_number,
-      Tickets: p.number_of_tickets,
+      // Tickets: p.number_of_tickets,
       Image: p.image_path,
       actions: p.id
     }))
 })
 
-function approveOrReject(status: 'approved' | 'rejected', id: string, userName: string, email: string, numberOfTickets: number) {
+function approveOrReject(status: 'approved' | 'rejected', id: string, userName: string, email: string) {
   toaster.add({
     id: 'postJob',
     title: 'Are you sure you want to approve',
@@ -51,7 +51,7 @@ function approveOrReject(status: 'approved' | 'rejected', id: string, userName: 
               status,
               userName,
               email,
-              numberOfTickets
+              // numberOfTickets
             },
           });
           if (response.success) {
@@ -100,10 +100,9 @@ function approveOrReject(status: 'approved' | 'rejected', id: string, userName: 
         </template>
         <template #actions-data="{ row }">
           <div class="flex gap-2">
-            <UButton size="sm" label="Approve"
-              @click="approveOrReject('approved', row.actions, row.Name, row.Email, row.Tickets)" />
+            <UButton size="sm" label="Approve" @click="approveOrReject('approved', row.actions, row.Name, row.Email)" />
             <UButton color="red" size="sm" label="Reject"
-              @click="approveOrReject('rejected', row.actions, row.Name, row.Email, row.Tickets)" />
+              @click="approveOrReject('rejected', row.actions, row.Name, row.Email)" />
           </div>
         </template>
       </UTable>

@@ -4,9 +4,9 @@ import { generateUniqueTicketNumbers } from "~/server/utils/ticketNumberGenerato
 export default defineEventHandler(async (event) => {
   try {
     const body = await readBody(event);
-    const { id, status, userName, email, numberOfTickets } = body;
+    const { id, status, userName, email } = body;
 
-    if (!id || !status || !userName || !numberOfTickets) {
+    if (!id || !status || !userName) {
       throw createError({
         statusCode: 400,
         statusMessage: "Missing required fields",
@@ -17,10 +17,7 @@ export default defineEventHandler(async (event) => {
     await paymentRef.update({ status, updatedAt: new Date() });
 
     if (status.toLowerCase() === "approved") {
-      const ticketNumbers = await generateUniqueTicketNumbers(
-        userName,
-        numberOfTickets
-      );
+      const ticketNumbers = await generateUniqueTicketNumbers(userName, 1);
 
       const ticketCollection = firebaseDb.collection("tickets");
       const batch = firebaseDb.batch();
