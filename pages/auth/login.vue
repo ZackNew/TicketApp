@@ -45,13 +45,13 @@ async function loginUser() {
     <form @submit.prevent="loginUser">
       <div class="flex flex-col mt-8">
         <label class="text-sm text-gray-700" for="email">Email</label>
-        <input v-model="state.email" type="email" id="email" class="border p-2 rounded-lg border-gray-400"
+        <input v-model="state.email" type="email" id="email" class="border p-2 rounded-lg border-gray-400 text-gray-600"
           placeholder="Enter your email" />
       </div>
       <div class="flex flex-col mt-4">
         <label class="text-sm text-gray-700" for="password">Password</label>
-        <input v-model="state.password" type="password" id="password" class="border p-2 rounded-lg border-gray-400"
-          placeholder="Enter password" />
+        <input v-model="state.password" type="password" id="password"
+          class="border p-2 rounded-lg border-gray-400 text-gray-600" placeholder="Enter password" />
       </div>
       <UButton :disabled="loadingLogin" type="submit" block :loading="loadingLogin"
         class="bg-primary-900 w-full rounded-lg py-3 text-white font-semibold mt-10">Login</UButton>
