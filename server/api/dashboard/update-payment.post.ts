@@ -1,33 +1,42 @@
 import sendEmailNotification from "~/server/utils/email-service";
-import { generateUniqueTicketNumber } from "~/server/utils/ticketNumberGenerator";
+import { generateUniqueTicketNumbers } from "~/server/utils/ticketNumberGenerator";
 
 export default defineEventHandler(async (event) => {
   try {
     const body = await readBody(event);
-    const { id, status, userName, email } = body;
+    const { id, status, userName, email, numberOfTickets } = body;
 
-    if (!id || !status || !userName) {
+    if (!id || !status || !userName || !numberOfTickets) {
       throw createError({
         statusCode: 400,
-        statusMessage: "Missing payment ID",
+        statusMessage: "Missing required fields",
       });
     }
 
     const paymentRef = firebaseDb.collection("payments").doc(id);
-    await paymentRef.update({ status: status, updatedAt: new Date() });
+    await paymentRef.update({ status, updatedAt: new Date() });
 
     if (status.toLowerCase() === "approved") {
-      const ticketNumber = await generateUniqueTicketNumber(userName);
+      const ticketNumbers = await generateUniqueTicketNumbers(
+        userName,
+        numberOfTickets
+      );
 
-      const ticketData = {
-        paymentId: id,
-        ticketNumber,
-        createdAt: new Date(),
-      };
+      const ticketCollection = firebaseDb.collection("tickets");
+      const batch = firebaseDb.batch();
 
-      await firebaseDb.collection("tickets").doc().set(ticketData);
+      ticketNumbers.forEach((ticketNumber) => {
+        const ticketRef = ticketCollection.doc();
+        batch.set(ticketRef, {
+          paymentId: id,
+          ticketNumber,
+          createdAt: new Date(),
+        });
+      });
 
-      sendEmailNotification(email, userName, ticketNumber);
+      await batch.commit();
+
+      sendEmailNotification(email, userName, ticketNumbers);
     }
 
     return { success: true, message: "Payment updated successfully" };
