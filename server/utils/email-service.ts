@@ -23,7 +23,7 @@ export default async function sendEmailNotification(
       to: email,
       subject: "Ticket Confirmation 🎫",
       html: `
-        <img src="https://i.ibb.co/0pk1rGP6/home.webp" alt="home" border="0" width="300px">
+        <img src="https://res.cloudinary.com/digswjgpt/image/upload/v1741005286/%E1%8C%89%E1%8B%9E-01_1_a29hhn.jpg" alt="home" border="0" width="300px">
         <h2>ሰላም ${userName},</h2>
         <p>ክፍያዎ ተቀባይነት <strong>አግኝቷል!</strong>! 🎉</p>
         <p>የትኬት ቁጥርዎ: ${ticketNumbers[0]}</p>
