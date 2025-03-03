@@ -31,7 +31,8 @@ const toaster = useToast()
 const listPayments = computed(() => {
   if (!payments.value) return []
   return payments.value.filter(p => p.status === filterStatus.value)
-    .map(p => ({
+    .map((p, index) => ({
+      No: index + 1,
       Name: p.full_name,
       Email: p.email,
       Phone: p.phone_number,
