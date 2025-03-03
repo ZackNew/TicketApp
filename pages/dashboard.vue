@@ -71,7 +71,7 @@ function approveOrReject(status: 'approved' | 'rejected', id: string, userName: 
               color: 'green',
               timeout: 5000,
             })
-            refetchPayments()
+            // refetchPayments()
           }
         } catch (error) {
           console.error(error)
