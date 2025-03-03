@@ -96,17 +96,12 @@ function clearForm() {
           <p class="mt-4">
             ርእሰ አድባራት ወገዳማት ዳግሚት ጽዮን አዲስ አለም ማርያም ገዳም የካቲት ፴
           </p>
-          <!-- <p class="mt-4">
-            እንዳልጓዝ የሚከለክለኝ ምንድነው?
-          </p> -->
-          <!-- <p class="mt-4">
-            ቦሌ ደብረ ሳሌም መድኃኔዓለም መጥምቁ ቅዱስ ዮሐንስ ወአቡነ አረጋዊ ካቴድራል ፈለገ ዮርዳኖስ ሰ/ት/ቤት
-          </p> -->
           <p class="mt-4">
             የክፍያ አማራጮች (የጉዞ ዋጋ ብር <span class="font-bold">749.99</span> )
           </p>
           <p class="mt-2">
             <span class="font-semibold">Commericial Bank Of Ethiopia: </span> 1000603378591 - ዮሴፍ ዓለማየሁ እና ፍቃዱ ሲሳይ
+            <span class="font-semibold">Telebirr: </span> +251987272007 - Biruk
           </p>
           <p class="font-semibold">
             ፎርሙን ሲሞሉ ችግር ከገጠመዎት:

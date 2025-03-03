@@ -11,15 +11,24 @@ interface Payment {
   phone_number: string;
   // number_of_tickets: number;
   image_path: string;
+  ticketNumber: string;
 }
 
-const { data: payments, error, execute: refetchPayments } = useFetch<Payment[]>('/api/dashboard/getDashboard')
+// const { data: payments, error, execute: refetchPayments } = useFetch<Payment[]>('/api/dashboard/getDashboard', {
+//   method: 'POST',
+// })
 
 const filterStatus = ref<'pending' | 'approved' | 'rejected'>('pending')
 
+const { data: payments, error, execute: refetchPayments } = useFetch<Payment[]>('/api/dashboard/getDashboard', {
+  query: computed(() => ({ status: filterStatus.value })),
+  watch: [filterStatus]
+});
+
+
 const toaster = useToast()
 
-const pendingPayments = computed(() => {
+const listPayments = computed(() => {
   if (!payments.value) return []
   return payments.value.filter(p => p.status === filterStatus.value)
     .map(p => ({
@@ -28,6 +37,7 @@ const pendingPayments = computed(() => {
       Phone: p.phone_number,
       // Tickets: p.number_of_tickets,
       Image: p.image_path,
+      TicketNumber: p.ticketNumber,
       actions: p.id
     }))
 })
@@ -83,18 +93,18 @@ function approveOrReject(status: 'approved' | 'rejected', id: string, userName: 
       <h1 class="text-2xl font-bold mb-4">Dashboard</h1>
       <div class="flex gap-2 text-white">
         <p class="cursor-pointer" :class="filterStatus === 'pending' ? 'text-green-500' : ''"
-          @click="filterStatus = 'pending'">Pending</p>
+          @click="filterStatus = 'pending'; refetchPayments()">Pending</p>
         <p>|</p>
         <p class="cursor-pointer" :class="filterStatus === 'approved' ? 'text-green-500' : ''"
-          @click="filterStatus = 'approved'">Approved</p>
+          @click="filterStatus = 'approved'; refetchPayments()">Approved</p>
         <p>|</p>
         <p class="cursor-pointer" :class="filterStatus === 'rejected' ? 'text-green-500' : ''"
-          @click="filterStatus = 'rejected'">Rejected</p>
+          @click="filterStatus = 'rejected'; refetchPayments()">Rejected</p>
       </div>
     </div>
     <UButton label="refresh" @click="refetchPayments()" class="mb-2" />
     <div class="bg-white rounded-lg p-4">
-      <UTable v-if="pendingPayments.length" :rows="pendingPayments">
+      <UTable v-if="listPayments.length" :rows="listPayments">
         <template #Image-data="{ row }">
           <a :href="row.Image" target="_blank" class="text-green-700">open image</a>
         </template>
