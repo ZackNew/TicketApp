@@ -33,7 +33,7 @@ export default defineEventHandler(async (event) => {
 
       await batch.commit();
 
-      sendEmailNotification(email, userName, ticketNumbers);
+      sendEmailNotification(email, userName, ticketNumbers, true);
     }
 
     return { success: true, message: "Payment updated successfully" };
