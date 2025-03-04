@@ -26,7 +26,6 @@ const state = reactive({
   phone_number: undefined,
 })
 
-const db = useFirestore()
 const toaster = useToast()
 
 async function onSubmit(event: FormSubmitEvent<FormSchema>) {
