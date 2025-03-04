@@ -18,18 +18,18 @@ export default defineEventHandler(async (event) => {
       const paymentData = { id: doc.id, ticketNumber: null, ...doc.data() };
 
       // Only fetch ticket if status is "approved" or "rejected"
-      if (status === "approved" || status === "rejected") {
-        const ticketSnapshot = await firebaseDb
-          .collection("tickets")
-          .where("paymentId", "==", doc.id)
-          .limit(1) // Assuming one ticket per payment
-          .get();
+      // if (status === "approved" || status === "rejected") {
+      //   const ticketSnapshot = await firebaseDb
+      //     .collection("tickets")
+      //     .where("paymentId", "==", doc.id)
+      //     .limit(1) // Assuming one ticket per payment
+      //     .get();
 
-        if (!ticketSnapshot.empty) {
-          const ticketDoc = ticketSnapshot.docs[0];
-          paymentData.ticketNumber = ticketDoc.data().ticketNumber;
-        }
-      }
+      //   if (!ticketSnapshot.empty) {
+      //     const ticketDoc = ticketSnapshot.docs[0];
+      //     paymentData.ticketNumber = ticketDoc.data().ticketNumber;
+      //   }
+      // }
 
       return paymentData;
     })
