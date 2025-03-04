@@ -1,9 +1,20 @@
+const cache = new Map(); // In-memory cache
+const CACHE_EXPIRY = 100 * 60 * 1000; // 100 minutes
+
 export default defineEventHandler(async (event) => {
   const query = getQuery(event);
   const status = query.status as string;
 
   if (!status) {
     throw createError({ statusCode: 400, statusMessage: "Status is required" });
+  }
+
+  const cacheKey = `payments_${status}`;
+  const cachedData = cache.get(cacheKey);
+
+  // Return cached data if available and not expired
+  if (cachedData && Date.now() - cachedData.timestamp < CACHE_EXPIRY) {
+    return cachedData.data;
   }
 
   // Fetch payments based on status
@@ -34,6 +45,9 @@ export default defineEventHandler(async (event) => {
       return paymentData;
     })
   );
+
+  // Store in cache
+  cache.set(cacheKey, { data: payments, timestamp: Date.now() });
 
   return payments;
 });
