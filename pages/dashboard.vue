@@ -28,6 +28,7 @@ const { data: payments, error, execute: refetchPayments } = useFetch<Payment[]>(
   watch: [filterStatus]
 });
 
+const loadingDownloadPdf = ref(false)
 
 const toaster = useToast()
 
@@ -46,43 +47,23 @@ const listPayments = computed(() => {
     }))
 })
 
-const generatePDF = () => {
-  if (!listPayments.value.length) {
-    toaster.add({
-      title: "No data to print!",
-      color: "red",
-      timeout: 3000,
-    });
-    return;
-  }
+function generatePDF() {
+  const sortedPayments = [...listPayments.value].sort((a, b) => a.Name.localeCompare(b.Name));
 
   const doc = new jsPDF();
-  doc.text("Payment List", 14, 15);
+  doc.text('Payments Report', 10, 10);
 
-  // Define table headers
-  const headers = [["No", "Name", "Email", "Phone", "Ticket Number"]];
+  const headers = ['No', 'Name', 'Email', 'Phone', 'Ticket Number'];
+  const rows = sortedPayments.map(({ No, Name, Email, Phone, TicketNumber }) => [No, Name, Email, Phone, TicketNumber]);
 
-  // Format data for autoTable
-  const rows = listPayments.value.map(({ No, Name, Email, Phone, TicketNumber }) => [
-    No,
-    Name,
-    Email,
-    Phone,
-    TicketNumber,
-  ]);
-
-  // Generate table in PDF
   autoTable(doc, {
-    startY: 20,
-    head: headers,
+    head: [headers],
     body: rows,
-    theme: "striped",
-    styles: { fontSize: 10 },
+    startY: 20,
   });
 
-  // Save the PDF
   doc.save(`Payments-${filterStatus.value}.pdf`);
-};
+}
 
 
 function approveOrReject(status: 'approved' | 'rejected', id: string, userName: string, email: string) {
@@ -147,7 +128,8 @@ function approveOrReject(status: 'approved' | 'rejected', id: string, userName: 
     </div>
     <div class="flex gap-2">
       <UButton label="Refresh" @click="refetchPayments()" class="mb-2" />
-      <UButton label="Download PDF" @click="generatePDF()" class="mb-2 bg-blue-500 text-white" />
+      <UButton label="Download PDF" @click="generatePDF()" class="mb-2 bg-blue-500 text-white"
+        :loading="loadingDownloadPdf" />
     </div>
     <div class="bg-white rounded-lg p-4">
       <UTable v-if="listPayments.length" :rows="listPayments">
