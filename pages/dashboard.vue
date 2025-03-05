@@ -34,7 +34,7 @@ const toaster = useToast()
 
 const listPayments = computed(() => {
   if (!payments.value) return []
-  return payments.value.filter(p => p.status === filterStatus.value)
+  return payments.value.filter(p => p.status === filterStatus.value).sort((a, b) => a.full_name.localeCompare(b.full_name))
     .map((p, index) => ({
       No: index + 1,
       Name: p.full_name,
@@ -44,26 +44,47 @@ const listPayments = computed(() => {
       Image: p.image_path,
       TicketNumber: p.ticketNumber,
       actions: p.id
-    }))
+    }));
 })
 
-function generatePDF() {
-  const sortedPayments = [...listPayments.value].sort((a, b) => a.Name.localeCompare(b.Name));
+const generatePDF = () => {
+  loadingDownloadPdf.value = true
+  if (!listPayments.value.length) {
+    toaster.add({
+      title: "No data to print!",
+      color: "red",
+      timeout: 3000,
+    });
+    return;
+  }
 
   const doc = new jsPDF();
-  doc.text('Payments Report', 10, 10);
+  doc.text("Payment List", 14, 15);
 
-  const headers = ['No', 'Name', 'Email', 'Phone', 'Ticket Number'];
-  const rows = sortedPayments.map(({ No, Name, Email, Phone, TicketNumber }) => [No, Name, Email, Phone, TicketNumber]);
+  // Define table headers
+  const headers = [["No", "Name", "Email", "Phone", "Ticket Number"]];
 
+  // Format data for autoTable
+  const rows = listPayments.value.map(({ No, Name, Email, Phone, TicketNumber }) => [
+    No,
+    Name,
+    Email,
+    Phone,
+    TicketNumber,
+  ]);
+
+  // Generate table in PDF
   autoTable(doc, {
-    head: [headers],
-    body: rows,
     startY: 20,
+    head: headers,
+    body: rows,
+    theme: "striped",
+    styles: { fontSize: 10 },
   });
 
+  // Save the PDF
   doc.save(`Payments-${filterStatus.value}.pdf`);
-}
+};
 
 
 function approveOrReject(status: 'approved' | 'rejected', id: string, userName: string, email: string) {
