@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { jsPDF } from "jspdf"
+import autoTable from "jspdf-autotable";
+
 definePageMeta({
   middleware: ['auth'],
 })
@@ -42,6 +45,45 @@ const listPayments = computed(() => {
       actions: p.id
     }))
 })
+
+const generatePDF = () => {
+  if (!listPayments.value.length) {
+    toaster.add({
+      title: "No data to print!",
+      color: "red",
+      timeout: 3000,
+    });
+    return;
+  }
+
+  const doc = new jsPDF();
+  doc.text("Payment List", 14, 15);
+
+  // Define table headers
+  const headers = [["No", "Name", "Email", "Phone", "Ticket Number"]];
+
+  // Format data for autoTable
+  const rows = listPayments.value.map(({ No, Name, Email, Phone, TicketNumber }) => [
+    No,
+    Name,
+    Email,
+    Phone,
+    TicketNumber,
+  ]);
+
+  // Generate table in PDF
+  autoTable(doc, {
+    startY: 20,
+    head: headers,
+    body: rows,
+    theme: "striped",
+    styles: { fontSize: 10 },
+  });
+
+  // Save the PDF
+  doc.save(`Payments-${filterStatus.value}.pdf`);
+};
+
 
 function approveOrReject(status: 'approved' | 'rejected', id: string, userName: string, email: string) {
   toaster.add({
@@ -103,7 +145,10 @@ function approveOrReject(status: 'approved' | 'rejected', id: string, userName: 
           @click="filterStatus = 'rejected'; refetchPayments()">Rejected</p>
       </div>
     </div>
-    <UButton label="refresh" @click="refetchPayments()" class="mb-2" />
+    <div class="flex gap-2">
+      <UButton label="Refresh" @click="refetchPayments()" class="mb-2" />
+      <UButton label="Download PDF" @click="generatePDF()" class="mb-2 bg-blue-500 text-white" />
+    </div>
     <div class="bg-white rounded-lg p-4">
       <UTable v-if="listPayments.length" :rows="listPayments">
         <template #Image-data="{ row }">
