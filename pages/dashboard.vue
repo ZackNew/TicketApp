@@ -84,6 +84,7 @@ const generatePDF = () => {
 
   // Save the PDF
   doc.save(`Payments-${filterStatus.value}.pdf`);
+  loadingDownloadPdf.value = false
 };
 
 
