@@ -26,7 +26,7 @@ export default defineEventHandler(async (event) => {
     };
 
     await newPaymentRef.set(newPayment);
-    sendEmailNotification(body.email, body.full_name, [], false);
+    sendEmailNotification(body.email, body.full_name, [], "confirmation");
 
     return {
       success: true,

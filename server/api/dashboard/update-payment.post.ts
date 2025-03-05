@@ -33,7 +33,9 @@ export default defineEventHandler(async (event) => {
 
       await batch.commit();
 
-      sendEmailNotification(email, userName, ticketNumbers, true);
+      sendEmailNotification(email, userName, ticketNumbers, "approval");
+    } else if (status.toLowerCase() === "rejected") {
+      sendEmailNotification(email, userName, [], "rejection");
     }
 
     return { success: true, message: "Payment updated successfully" };
