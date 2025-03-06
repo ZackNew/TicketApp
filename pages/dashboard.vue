@@ -48,45 +48,38 @@ const listPayments = computed(() => {
 })
 
 const generatePDF = () => {
-  loadingDownloadPdf.value = true
-  if (!listPayments.value.length) {
-    toaster.add({
-      title: "No data to print!",
-      color: "red",
-      timeout: 3000,
-    });
+  const printableContent = document.getElementById("printable-table")?.innerHTML;
+  if (!printableContent) {
+    console.error("No table found!");
     return;
   }
 
-  const doc = new jsPDF();
-  doc.text("Payment List", 14, 15);
+  const printWindow = window.open("", "", "width=800,height=600");
+  if (!printWindow) {
+    console.error("Failed to open print window!");
+    return;
+  }
 
-  // Define table headers
-  const headers = [["No", "Name", "Email", "Phone", "Ticket Number"]];
+  printWindow.document.write(`
+    <html>
+      <head>
+        <title>Print Table</title>
+        <style>
+          table { width: 100%; border-collapse: collapse; }
+          th, td { border: 1px solid black; padding: 8px; text-align: left; }
+          th { background-color: #f2f2f2; }
+        </style>
+      </head>
+      <body>
+        ${printableContent}
+      </body>
+    </html>
+  `);
 
-  // Format data for autoTable
-  const rows = listPayments.value.map(({ No, Name, Email, Phone, TicketNumber }) => [
-    No,
-    Name,
-    Email,
-    Phone,
-    TicketNumber,
-  ]);
-
-  // Generate table in PDF
-  autoTable(doc, {
-    startY: 20,
-    head: headers,
-    body: rows,
-    theme: "striped",
-    styles: { fontSize: 10 },
-  });
-
-  // Save the PDF
-  doc.save(`Payments-${filterStatus.value}.pdf`);
-  loadingDownloadPdf.value = false
+  printWindow.document.close();
+  printWindow.print();
+  printWindow.close();
 };
-
 
 function approveOrReject(status: 'approved' | 'rejected', id: string, userName: string, email: string) {
   toaster.add({
@@ -167,5 +160,52 @@ function approveOrReject(status: 'approved' | 'rejected', id: string, userName: 
         </template>
       </UTable>
     </div>
+    <div id="printable-table">
+      <table>
+        <thead>
+          <tr>
+            <th>No</th>
+            <th>Name</th>
+            <th>Phone Number</th>
+            <th>Ticket Number</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="payment in listPayments" :key="payment.No">
+            <td>{{ payment.No }}</td>
+            <td>{{ payment.Name }}</td>
+            <td>{{ payment.Phone }}</td>
+            <td>{{ payment.TicketNumber }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
+
+<style scoped>
+#printable-table {
+  display: none;
+  /* Hide it by default */
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+    /* Hide everything */
+  }
+
+  #printable-table,
+  #printable-table * {
+    visibility: visible;
+    /* Show only the printable table */
+  }
+
+  #printable-table {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+}
+</style>
