@@ -43,6 +43,7 @@ const listPayments = computed(() => {
       // Tickets: p.number_of_tickets,
       Image: p.image_path,
       TicketNumber: p.ticketNumber,
+      Address: p.address,
       actions: p.id
     }));
 })
@@ -168,6 +169,7 @@ function approveOrReject(status: 'approved' | 'rejected', id: string, userName: 
             <th>Name</th>
             <th>Phone Number</th>
             <th>Ticket Number</th>
+            <th>Address</th>
           </tr>
         </thead>
         <tbody>
@@ -176,6 +178,7 @@ function approveOrReject(status: 'approved' | 'rejected', id: string, userName: 
             <td>{{ payment.Name }}</td>
             <td>{{ payment.Phone }}</td>
             <td>{{ payment.TicketNumber }}</td>
+            <td>{{ payment.Address }}</td>
           </tr>
         </tbody>
       </table>
