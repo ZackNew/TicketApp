@@ -1,3 +1,5 @@
+import sendEmailNotification from "~/server/utils/email-service";
+
 export default defineEventHandler(async (event) => {
   try {
     const body = await readBody(event);
@@ -6,7 +8,7 @@ export default defineEventHandler(async (event) => {
       !body.email ||
       !body.full_name ||
       !body.image_path ||
-      !body.number_of_tickets ||
+      !body.address ||
       !body.phone_number
     ) {
       throw createError({
@@ -24,6 +26,7 @@ export default defineEventHandler(async (event) => {
     };
 
     await newPaymentRef.set(newPayment);
+    sendEmailNotification(body.email, body.full_name, [], "confirmation");
 
     return {
       success: true,

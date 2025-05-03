@@ -8,7 +8,7 @@ const formSchema = object({
   email: string().email('Invalid email').required('Required'),
   full_name: string().required('Required'),
   image_path: string().required('Required'),
-  number_of_tickets: number().required('Required'),
+  address: string(),
   phone_number: string().matches(phoneNumberRegex, 'Invalid phone number').required('Required'),
 })
 
@@ -22,11 +22,10 @@ const state = reactive({
   email: undefined,
   full_name: undefined,
   image_path: undefined,
-  number_of_tickets: undefined,
+  address: undefined,
   phone_number: undefined,
 })
 
-const db = useFirestore()
 const toaster = useToast()
 
 async function onSubmit(event: FormSubmitEvent<FormSchema>) {
@@ -38,7 +37,7 @@ async function onSubmit(event: FormSubmitEvent<FormSchema>) {
         email: state.email,
         full_name: state.full_name,
         image_path: state.image_path,
-        number_of_tickets: state.number_of_tickets,
+        address: state.address,
         phone_number: state.phone_number,
       },
     });
@@ -80,7 +79,7 @@ function clearForm() {
   state.email = undefined;
   state.full_name = undefined;
   state.image_path = undefined;
-  state.number_of_tickets = undefined;
+  state.address = undefined;
   state.phone_number = undefined;
 }
 </script>
@@ -89,30 +88,25 @@ function clearForm() {
   <div class="p-2 md:p-0">
     <div class="max-w-7xl mx-auto md:p-8 p-2 md:flex flex-row gap-4">
       <div class="md:w-1/2 mx-auto shadow rounded-xl p-4 bg-white text-gray-800">
-        <img class="rounded-lg" src="/img/home.jpeg" />
+        <img class="rounded-lg" src="/img/home.webp" />
         <div class="mt-4">
-          <h1 class="text-xl font-semibold">የ6ኛዙር የሱባዔ ጉባኤ ተማሪዎች ጉዞ ፩</h1>
+          <h1 class="text-lg font-semibold">ቦሌ ደብረ ሳሌም መድኃኔዓለም መጥምቁ ቅዱስ ዮሐንስ ወአቡነ አረጋዊ ካቴድራል ፈለገ ዮርዳኖስ ሰ/ት/ቤት የ፯ኛሐ ክፍል
+            ተማሪዎች ጉዞ ፩</h1>
           <p class="mt-4">
             ርእሰ አድባራት ወገዳማት ዳግሚት ጽዮን አዲስ አለም ማርያም ገዳም የካቲት ፴
           </p>
           <p class="mt-4">
-            እንዳልጓዝ የሚከለክለኝ ምንድነው?
-          </p>
-          <p class="mt-4">
-            ቦሌ ደብረ ሳሌም መድኃኔዓለም መጥምቁ ቅዱስ ዮሐንስ ወአቡነ አረጋዊ ካቴድራል ፈለገ ዮርዳኖስ ሰ/ት/ቤት
-          </p>
-          <p class="mt-8">
-            የክፍያ አማራጮች (የጉዞ ዋጋ ብር 500)
+            የክፍያ አማራጮች (የጉዞ ዋጋ ብር <span class="font-bold">749.99</span> )
           </p>
           <p class="mt-2">
-            <span class="font-semibold">Commericial Bank Of Ethiopia: </span> 1000316708777 - Biruk Akaleweld
-          </p>
-          <p class="mt-2">
-            <span class="font-semibold">Bank Of Abyssinia: </span> 37564281 - Biruk Akaleweld
-          </p>
-          <p class="mt-2">
+            <span class="font-semibold">Commericial Bank Of Ethiopia: </span> 1000603378591 - ዮሴፍ ዓለማየሁ እና ፍቃዱ ሲሳይ
             <span class="font-semibold">Telebirr: </span> +251987272007 - Biruk
           </p>
+          <p class="font-semibold">
+            ፎርሙን ሲሞሉ ችግር ከገጠመዎት:
+          </p>
+          <p class="ml-6">+251912907396</p>
+          <p class="ml-6">+251923789744</p>
         </div>
       </div>
       <div class="md:w-1/2 mx-auto mt-12 md:mt-0 shadow rounded-xl p-4 bg-slate-800">
@@ -131,9 +125,9 @@ function clearForm() {
               <UInput size="lg" v-model="state.phone_number" />
             </UFormGroup>
 
-            <UFormGroup class="mt-4" label="Number  of tickets" name="number_of_tickets"
+            <UFormGroup class="mt-4" label="Residential Area/Address" name="address"
               :ui="{ label: { base: 'text-white' } }">
-              <UInput size="lg" v-model="state.number_of_tickets" />
+              <UInput size="lg" v-model="state.address" />
             </UFormGroup>
 
             <UFormGroup class="mt-4" label="Payment Image" name="image_path" :ui="{ label: { base: 'text-white' } }">
@@ -141,7 +135,7 @@ function clearForm() {
                 @change="uploadImage" />
             </UFormGroup>
 
-            <UButton :disabled="loadingImageUpload" :loading="loadingSubmit" label="Submit"
+            <UButton :disabled="loadingImageUpload" :loading="loadingSubmit || loadingImageUpload" label="Submit"
               class="bg-primary-900 hover:bg-primary-800 px-16 mt-12" size="lg" type="submit" />
           </UForm>
         </div>
